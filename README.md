@@ -131,7 +131,7 @@ Our service is now ready to be started automatically, but for that to actually h
     $ systemctl --user enable python_demo_service
     Created symlink from /home/torf/.config/systemd/user/default.target.wants/python_demo_service.service to /home/torf/.config/systemd/user/python_demo_service.service.
 
-If you restart your system now then our service will be started automatically once you log in. After your last session is closed, your user's systemd instance (and with it, our service) will shutdown. You can make your user's systemd instance independant from your user's sessions (so that our service starts at boot time even if you don't log in and also keeps running until a shutdown/reboot) via
+If you restart your system now then our service will be started automatically once you log in. After your last session is closed, your user's systemd instance (and with it, our service) will shutdown. You can make your user's systemd instance independent from your user's sessions (so that our service starts at boot time even if you don't log in and also keeps running until a shutdown/reboot) via
 
     $ sudo loginctl enable-linger $USER
 
