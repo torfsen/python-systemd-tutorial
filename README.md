@@ -94,7 +94,7 @@ Obviously our service can also be stopped:
 
 You might have noticed that the output of our script's `print` calls did not show up on your terminal. This is because systemd detached the service process from that terminal and also redirected the process's `STDOUT` and `STDERR` streams.
 
-One thing to remember is that in Python, STDOUT and STDOUT are buffered. When running in a terminal, this means that output will only show up after a newline (`\n`) has been written. However, our service's STDOUT and STDERR are pipes, and in this case the buffer is only flushed once it is full. Hence the script's messages only turn up in systemd's logs after it has produced even more output.
+One thing to remember is that in Python, STDOUT and STDERR are buffered. When running in a terminal, this means that output will only show up after a newline (`\n`) has been written. However, our service's STDOUT and STDERR are pipes, and in this case the buffer is only flushed once it is full. Hence the script's messages only turn up in systemd's logs after it has produced even more output.
 
 To avoid this effect we need to disable the buffering of STDOUT and STDERR, and [one possibility to do so](https://stackoverflow.com/q/107705/857390) is to set the `PYTHONUNBUFFERED` environment variable. This can be done directly in our unit file by adding the following line to the `[Service]` section:
 
