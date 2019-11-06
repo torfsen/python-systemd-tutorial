@@ -44,12 +44,14 @@ The unit options for systemd services are documented in [systemd.service].
 
 We can now start to write the actual Python code for the service. Let's start small with a script that simply prints a message every 5 seconds. Store the following script as `python_demo_service.py` in a directory of your choice:
 
-    if __name__ == '__main__':
-        import time
+```python
+if __name__ == '__main__':
+    import time
 
-        while True:
-            print('Hello from the Python Demo Service')
-            time.sleep(5)
+    while True:
+        print('Hello from the Python Demo Service')
+        time.sleep(5)
+```
 
 To link our service to our script, extend the unit file as follows:
 
@@ -187,18 +189,20 @@ Often, a service needs to perform some initializiation before it is ready to per
 
 The notification is done using the [sd_notify] system call. We'll use the [python-systemd] package to execute it, so [make sure it is installed](https://github.com/systemd/python-systemd#installation). Then add the following lines to our script:
 
-    if __name__ == '__main__':
-        import time
-        import systemd.daemon
+```python
+if __name__ == '__main__':
+    import time
+    import systemd.daemon
 
-        print('Starting up ...')
-        time.sleep(10)
-        print('Startup complete')
-        systemd.daemon.notify('READY=1')
+    print('Starting up ...')
+    time.sleep(10)
+    print('Startup complete')
+    systemd.daemon.notify('READY=1')
 
-        while True:
-            print('Hello from the Python Demo Service')
-            time.sleep(5)
+    while True:
+        print('Hello from the Python Demo Service')
+        time.sleep(5)
+```
 
 You will also need to change the type of your service from `simple` (the default we've been previously using) to `notify`. Add the following line to the `[Service]` section of your unit file, and call `systemctl --user daemon-reload` afterwards.
 
