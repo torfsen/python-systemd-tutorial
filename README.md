@@ -22,7 +22,7 @@ Even if your goal is to develop a system service it is a good idea to start with
 
 ### Unit Files
 
-To create a systemd service you need to create a corresponding *unit file*, which is a  plaint-text, ini-style configuration file. For this tutorial we will use a simple self-contained unit file, see [systemd.unit] for advanced approaches.
+To create a systemd service you need to create a corresponding *unit file*, which is a  plain-text, ini-style configuration file. For this tutorial we will use a simple self-contained unit file, see [systemd.unit] for advanced approaches.
 
 Unit files for user services can be put [in several places](https://www.freedesktop.org/software/systemd/man/systemd.unit.html#User%20Unit%20Search%20Path). Some of these require root access, but there are multiple possible places in your home directory. As far as I can tell, there is no established default choice for these, so for this tutorial we are going to use `~/.config/systemd/user/`.
 
