@@ -68,6 +68,10 @@ To link our service to our script, extend the unit file as follows:
 Now our service can be started:
 
     $ systemctl --user start python_demo_service
+    
+Depending on your systemd version, you may need to reload the user daemon so that our service can be found and started.
+
+    $ systemctl --user daemon-reload
 
 Note that this command returns immediately. This is because systemd has created a separate process that runs our script. This means that we don't have to care about [the nasty details of correctly forking into a daemon process](https://www.python.org/dev/peps/pep-3143/#correct-daemon-behaviour) ourselves, since systemd does all the work for us. Yay!
 
