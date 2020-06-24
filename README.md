@@ -219,6 +219,30 @@ You can then see the notification in action by (re-)starting the service: `syste
 You can do a lot more via [sd_notify], see its documentation for details.
 
 
+### Gracefully shutting down on systemd stop
+
+When systemd stops your service ( using `systemctl stop python_demo_service` ) it sends the signal SIGTERM. You can do the same with `kill -SIGTERM <pid>` for testing.
+
+If you do not register a handler for SIGTERM your code will be terminated immediately. If you register a handler you can do some last tasks before exiting (e.g. writing and closing a file and showing an exit message).
+
+```python
+import time
+import systemd.daemon
+import signal
+import sys
+
+def graceful_exit(signal_number,stack_frame):
+   systemd.daemon.notify('STOPPING=1')
+   print("Python Demo Service received signal {}. Stopping now.".format(signal.Signals(signal_number).name))
+   time.sleep(5)
+   print("Python Demo Service has shutdown. Bye bye now!")
+   sys.exit(0)
+
+# register SIGTERM and SIGINT handlers to enable graceful shutdown of service
+signal.signal(signal.SIGINT, graceful_exit)
+signal.signal(signal.SIGTERM, graceful_exit)
+```
+
 ## Creating a System Service
 
 Once you have a working user service you can turn it into a system service. Remember, however, that system services run in the system's central systemd instance and have a greater potential for disturbing your system's stability or security when not implemented correctly. In many cases, this step isn't really necessary and a user service will do just fine.
