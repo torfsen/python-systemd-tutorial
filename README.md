@@ -68,7 +68,7 @@ To link our service to our script, extend the unit file as follows:
 Now our service can be started:
 
     $ systemctl --user start python_demo_service
-    
+
 Depending on your systemd version, you may need to reload the user daemon so that our service can be found and started.
 
     $ systemctl --user daemon-reload
@@ -189,7 +189,7 @@ Afterwards, the logs will show that systemd restarted our service:
 
 ### Notifying systemd when the Service is Ready
 
-Often, a service needs to perform some initializiation before it is ready to perform its actual work. Your service can notify systemd once it has completed its initialization. This is particularly useful when other services depend on your service, since it allows systemd to delay starting these until your service is really ready.
+Often, a service needs to perform some initialization before it is ready to perform its actual work. Your service can notify systemd once it has completed its initialization. This is particularly useful when other services depend on your service, since it allows systemd to delay starting these until your service is really ready.
 
 The notification is done using the [sd_notify] system call. We'll use the [python-systemd] package to execute it, so [make sure it is installed](https://github.com/systemd/python-systemd#installation). Then add the following lines to our script:
 
@@ -216,7 +216,7 @@ You can then see the notification in action by (re-)starting the service: `syste
 
     $ systemctl --user restart python_demo_service
 
-You can do a lot more via [sd_notify], see its documentation for details.
+You can do a lot more via [sd_notify], see its documentation or [systemd_watchdog] for details.
 
 
 ## Creating a System Service
@@ -292,6 +292,7 @@ We now have a basic implementation of a system systemd service in Python. Depend
 
 * Add support for reloading the service's configuration without a hard restart. See the [`ExecReload`](https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecReload=) option.
 * Explore the other features of the [python-systemd] package, for example the [`systemd.journal`](https://www.freedesktop.org/software/systemd/python-systemd/journal.html) module for advanced interaction with the systemd journal.
+* To have systemd monitor your service and restart it if it hangs, a Python wrapper for [sd_notify] is available called "[systemd_watchdog]."
 
 And of course, if you find an error in this tutorial or have an addition, feel free to create an issue or a pull request.
 
@@ -307,5 +308,5 @@ Happy coding!
 [systemd.service]: https://www.freedesktop.org/software/systemd/man/systemd.service.html
 [systemd.special]: https://www.freedesktop.org/software/systemd/man/systemd.special.html
 [systemd.target]: https://www.freedesktop.org/software/systemd/man/systemd.target.html
+[systemd_watchdog]: https://github.com/AaronDMarasco/systemd-watchdog
 [useradd]: https://linux.die.net/man/8/useradd
-
